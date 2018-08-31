@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -ex
+
+# Generate btcd.conf
+btcd_init
+
+args=("$@")
+
+exec btcd "${args[@]}"
