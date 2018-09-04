@@ -9,7 +9,7 @@ WORKDIR $GOPATH/src/github.com/btcsuite/btcd
 
 # Grab and install the latest version of btcd and all related dependencies.
 RUN git clone https://github.com/btcsuite/btcd . \
-&& git reset --hard 79e00513b1011888b1e675157ab89f527f901cae \
+&& git reset --hard cff30e1d23fc9e800b2b5b4b41ef1817dda07e9f \
 &&  glide install \
 &&  go install . ./cmd/...
 
