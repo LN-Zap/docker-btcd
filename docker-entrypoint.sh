@@ -10,7 +10,7 @@ fi
 # allow the container to be started with `--user`
 if [ "$1" = 'btcd_oneshot' -a "$(id -u)" = '0' ]; then
 	chown -R btcd .
-	exec gosu btcd "$0" "$@"
+	exec su-exec btcd "$0" "$@"
 fi
 
 exec "$@"
