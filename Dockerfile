@@ -1,5 +1,5 @@
 # Builder image
-FROM golang:1.10-alpine3.8 as builder
+FROM golang:1.11-alpine3.8 as builder
 MAINTAINER Tom Kirkpatrick <tkp@kirkdesigns.co.uk>
 
 # Add build tools.
