@@ -14,7 +14,7 @@ RUN go get -u github.com/Masterminds/glide
 
 # Grab and install the latest version of btcd and all related dependencies.
 RUN git clone https://github.com/btcsuite/btcd . \
-  && git reset --hard 2a560b2036bee5e3679ec2133eb6520b2f195213 \
+  && git reset --hard 67e573d211ace594f1366b4ce9d39726c4b19bd0 \
   && glide install \
   && go install . ./cmd/...
 
