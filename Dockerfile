@@ -7,16 +7,13 @@ RUN apk --no-cache --virtual build-dependencies add \
 	build-base \
 	git
 
-WORKDIR $GOPATH/src/github.com/btcsuite/btcd
 
-# Install build dependencies.
-RUN go get -u github.com/Masterminds/glide
+WORKDIR $GOPATH/src/github.com/btcsuite/btcd
 
 # Grab and install the latest version of btcd and all related dependencies.
 RUN git clone https://github.com/btcsuite/btcd . \
-  && git reset --hard 67e573d211ace594f1366b4ce9d39726c4b19bd0 \
-  && glide install \
-  && go install . ./cmd/...
+  && git reset --hard ed77733ec07dfc8a513741138419b8d9d3de9d2d \
+	&&  GO111MODULE=on go install -v . ./cmd/...
 
 # Final image
 FROM alpine:3.8 as final
