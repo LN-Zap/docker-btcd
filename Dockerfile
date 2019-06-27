@@ -12,7 +12,7 @@ WORKDIR $GOPATH/src/github.com/btcsuite/btcd
 
 # Grab and install the latest version of btcd and all related dependencies.
 RUN git clone https://github.com/btcsuite/btcd . \
-  && git reset --hard a0d1e3e36d50f61ee6eaab26d7bd246aae1f9ece \
+  && git reset --hard 962a206e94e9151fe41bbd6d6464af4ba7168f50 \
 	&&  GO111MODULE=on go install -v . ./cmd/...
 
 # Final image
