@@ -1,5 +1,5 @@
 # Builder image
-FROM golang:1.12-alpine3.9 as builder
+FROM golang:1.13-alpine3.10 as builder
 MAINTAINER Tom Kirkpatrick <tkp@kirkdesigns.co.uk>
 
 # Add build tools.
@@ -16,7 +16,7 @@ RUN git clone https://github.com/btcsuite/btcd . \
 	&&  GO111MODULE=on go install -v . ./cmd/...
 
 # Final image
-FROM alpine:3.9 as final
+FROM alpine:3.10 as final
 MAINTAINER Tom Kirkpatrick <tkp@kirkdesigns.co.uk>
 
 # Add utils.
