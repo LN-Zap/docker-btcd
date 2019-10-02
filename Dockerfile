@@ -47,12 +47,16 @@ COPY --from=builder /go/bin/btcd /bin/
 COPY --from=builder /go/bin/findcheckpoint /bin/
 COPY --from=builder /go/bin/gencerts /bin/
 
+## Set BUILD_VER build arg to break the cache here.
+ARG BUILD_VER=unknown
+
 # Add startup scripts.
 ADD ./bin /usr/local/bin
 
 # Manually generate certificate and add all domains, it is needed to connect to "btcd" over docker links.
 RUN mkdir "/rpc" \
-  && /bin/gencerts --host="*" --directory="/rpc" --force
+  && /bin/gencerts --host="*" --directory="/rpc" --force \
+	&& chown -R btcd:btcd /rpc
 
 # Create a volume to house pregenerated RPC credentials. This can be shared with any lnd, btcctl containers so they can
 # securely query btcd's RPC server.

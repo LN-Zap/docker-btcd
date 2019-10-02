@@ -1,10 +1,17 @@
 #!/bin/bash
 
-set -ex
+set -e
 
 # Generate btcd.conf
 btcd_init
 
-args=("$@")
+# Define default parameters.
+PARAMS="--rpccert=/rpc/rpc.cert --rpckey=/rpc/rpc.key"
 
-exec btcd "${args[@]}"
+# Add user parameters to command.
+args=("$@")
+PARAMS="$PARAMS ${args[@]}"
+
+# Print command and start bitcoin node.
+echo "Command: btcd $PARAMS"
+exec btcd $PARAMS
