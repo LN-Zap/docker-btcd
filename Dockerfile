@@ -35,7 +35,8 @@ ENV HOME /btcd
 ENV USER_ID ${USER_ID:-1000}
 ENV GROUP_ID ${GROUP_ID:-1000}
 
-# add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
+# add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies
+# get added
 RUN addgroup -g ${GROUP_ID} -S btcd && \
   adduser -u ${USER_ID} -S btcd -G btcd -s /bin/bash -h /btcd btcd
 
@@ -46,7 +47,18 @@ COPY --from=builder /go/bin/btcd /bin/
 COPY --from=builder /go/bin/findcheckpoint /bin/
 COPY --from=builder /go/bin/gencerts /bin/
 
+# Add startup scripts.
 ADD ./bin /usr/local/bin
+
+# Manually generate certificate and add all domains, it is needed to connect to "btcd" over docker links.
+RUN mkdir "/rpc" \
+  && /bin/gencerts --host="*" --directory="/rpc" --force
+
+# Create a volume to house pregenerated RPC credentials. This can be shared with any lnd, btcctl containers so they can
+# securely query btcd's RPC server.
+# You should NOT do this before certificate generation! Otherwise manually generated certificate will be overridden with
+# shared mounted volume! For more info read dockerfile "VOLUME" documentation.
+VOLUME ["/rpc"]
 
 # Create a volume to house btcd data
 VOLUME ["/btcd"]
